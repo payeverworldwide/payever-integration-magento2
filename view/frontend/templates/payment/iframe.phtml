@@ -1,0 +1,22 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+
+
+<div data-bind="scope: 'payever_iframe'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                        "payever_iframe": {
+                            "component": "Payever_Payever/js/view/payment/iframe"
+                        }
+                    }
+                }
+            }
+    }
+</script>
+</div>

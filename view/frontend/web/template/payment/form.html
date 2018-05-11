@@ -1,0 +1,49 @@
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPayeverPaymentMethod, visible: isRadioButtonVisible()"/>
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <img data-bind="visible: getIconUrl(), attr: {src: getIconUrl(), alt: getTitle()}"
+                 class="payment-icon" style="height:50px;"/>
+            <span data-bind="text: getTitle()"></span>
+        </label>
+    </div>
+
+    <div class="payment-method-content">
+
+        <div style="padding:20px 0;" data-bind="visible: getDescription(), text: getDescription()"></div>
+
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="message message-error error" data-bind="visible: getPayeverError(), text: getPayeverError()">
+        </div>
+
+        <div class="payment-method-iframe-container" data-bind="visible: getIframeUrl()">
+            <iframe width="100%" border="0" name="payever_iframe"
+                    style="border:none; min-height:600px;"
+                    data-bind="attr: {src: getIframeUrl()}, style: {height: getHeightIframe()}"></iframe>
+        </div>
+
+        <div class="actions-toolbar" data-bind="visible: !isCreatePaymentCalled()">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="button"
+                        data-bind="
+                        click: createPayment,
+                        attr: {title: $t('Proceed Payment')}
+                        ">
+                    <span data-bind="i18n: 'Proceed Payment'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

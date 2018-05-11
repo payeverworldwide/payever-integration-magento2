@@ -1,0 +1,56 @@
+<?php
+/**
+ * @see \Payever\Payever\Block\Adminhtml\System\Config\Synchronize
+ */
+?>
+<script type="text/javascript">
+require(['prototype'], function() {
+//<![CDATA[
+    function synchronize() {
+        var messagesContainer = $('synchronize_result');
+        $(messagesContainer).update('');
+        new Ajax.Request('<?php /* @noEscape */ echo $block->getAjaxUrl() ?>', {
+            method:     'get',
+            onSuccess: function(response) {
+
+                var result = '<?php echo $block->escapeHtml(__('Error during Synchronization Settings.')) ?>';
+                try {
+                    if (response.responseText.isJSON()) {
+                        response = response.responseText.evalJSON();
+                        result = response.message;
+                    }
+                    messagesContainer.removeClassName('hidden');
+                    if (response.result == 'success') {
+                        messagesContainer.addClassName('success').addClassName('message-success')
+                    } else {
+                        messagesContainer.addClassName('error').addClassName('message-error')
+                    }
+                } catch (e) {
+                    messagesContainer.removeClassName('hidden').addClassName('error').addClassName('message-error')
+                }
+
+                messagesContainer.update(result);
+
+                setTimeout(function(){
+                    location.reload();
+                },2000);
+            }
+        });
+    }
+
+    window.synchronize = synchronize;
+//]]>
+
+});
+</script>
+
+<div class="actions actions-synchronize">
+    <button onclick="javascript:synchronize(); return false;"
+            class="action-synchronize"
+            type="button"
+            id="<?php echo $block->getHtmlId() ?>">
+        <span><?php echo $block->escapeHtml($block->getButtonLabel()) ?></span>
+    </button>
+
+    <div id="synchronize_result" class="message-validation hidden message"></div>
+</div>

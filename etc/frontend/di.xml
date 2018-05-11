@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+        <type name="Payever\Payever\Model\Ui\StripeConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverStripeGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\PaymillDirectdebitConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverPaymillDirectdebitGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SofortConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSofortGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\PaymillCreditcardConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverPaymillCreditcardGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SantanderInstallmentConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSantanderInstallmentGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SantanderInstallmentNoConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSantanderInstallmentNoGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SantanderInstallmentDkConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSantanderInstallmentDkGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SantanderInstallmentSeConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSantanderInstallmentSeGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SantanderInvoiceNoConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSantanderInvoiceNoGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\PaypalConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverPaypalGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\SantanderInvoiceDeConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverSantanderInvoiceDeGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\PayexFakturaConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverPayexFakturaGatewayConfig</argument>
+            </arguments>
+        </type>
+    
+        <type name="Payever\Payever\Model\Ui\PayexCreditcardConfigProvider">
+            <arguments>
+                <argument name="config" xsi:type="object">PayeverPayexCreditcardGatewayConfig</argument>
+            </arguments>
+        </type>
+
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="payever_stripe_config_provider" xsi:type="object">Payever\Payever\Model\Ui\StripeConfigProvider</item>
+                <item name="payever_paymill_directdebit_config_provider" xsi:type="object">Payever\Payever\Model\Ui\PaymillDirectdebitConfigProvider</item>
+                <item name="payever_sofort_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SofortConfigProvider</item>
+                <item name="payever_paymill_creditcard_config_provider" xsi:type="object">Payever\Payever\Model\Ui\PaymillCreditcardConfigProvider</item>
+                <item name="payever_santander_installment_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SantanderInstallmentConfigProvider</item>
+                <item name="payever_santander_installment_no_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SantanderInstallmentNoConfigProvider</item>
+                <item name="payever_santander_installment_dk_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SantanderInstallmentDkConfigProvider</item>
+                <item name="payever_santander_installment_se_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SantanderInstallmentSeConfigProvider</item>
+                <item name="payever_santander_invoice_no_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SantanderInvoiceNoConfigProvider</item>
+                <item name="payever_paypal_config_provider" xsi:type="object">Payever\Payever\Model\Ui\PaypalConfigProvider</item>
+                <item name="payever_santander_invoice_de_config_provider" xsi:type="object">Payever\Payever\Model\Ui\SantanderInvoiceDeConfigProvider</item>
+                <item name="payever_payex_faktura_config_provider" xsi:type="object">Payever\Payever\Model\Ui\PayexFakturaConfigProvider</item>
+                <item name="payever_payex_creditcard_config_provider" xsi:type="object">Payever\Payever\Model\Ui\PayexCreditcardConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Payever\Payever\Controller\Response\Success">
+        <arguments>
+            <argument name="command" xsi:type="object">PayeverRetriweCommand</argument>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Checkout\Block\Onepage\Success">
+        <plugin name="payever_payever_plugin_checkout_block_onepage_success"
+                type="Payever\Payever\Plugin\CheckoutBlockOnepageSuccessPlugin"
+                sortOrder="10"
+                disabled="false"
+        />
+    </type>
+</config>

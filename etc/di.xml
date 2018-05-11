@@ -1,0 +1,1320 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Payever\Payever\Api\GuestCreatePaymentManagementInterface" type="Payever\Payever\Model\GuestCreatePaymentManagement" />
+    <preference for="Payever\Payever\Api\CreatePaymentManagementInterface" type="Payever\Payever\Model\CreatePaymentManagement" />
+    <preference for="Payever\Payever\Api\Data\CreatePaymentResponseInterface" type="Payever\Payever\Model\Data\CreatePaymentResponse" />
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverStripeGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\StripeConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverStripeGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverStripeGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverStripeGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverStripeGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverStripeGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\StripeConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverStripeCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverStripeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverStripeCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverStripeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverStripeGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverStripeCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverStripeGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverStripeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverStripeGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverStripeGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverStripeGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverStripeGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverStripeGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverStripeGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverStripeGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverStripeGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverStripeGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverStripeGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverStripeGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverStripeGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverStripeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverPaymillDirectdebitGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\PaymillDirectdebitConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverPaymillDirectdebitGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverPaymillDirectdebitGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverPaymillDirectdebitGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverPaymillDirectdebitGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverPaymillDirectdebitGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\PaymillDirectdebitConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverPaymillDirectdebitCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaymillDirectdebitGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaymillDirectdebitCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaymillDirectdebitGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaymillDirectdebitGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverPaymillDirectdebitCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillDirectdebitGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaymillDirectdebitGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverPaymillDirectdebitGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverPaymillDirectdebitGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverPaymillDirectdebitGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverPaymillDirectdebitGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverPaymillDirectdebitGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverPaymillDirectdebitGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillDirectdebitGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillDirectdebitGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillDirectdebitGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverPaymillDirectdebitGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverPaymillDirectdebitGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaymillDirectdebitGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverPaymillDirectdebitGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSofortGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SofortConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSofortGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSofortGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSofortGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSofortGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSofortGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SofortConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSofortCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSofortGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSofortCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSofortGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSofortGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSofortCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSofortGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSofortGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSofortGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSofortGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSofortGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSofortGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSofortGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSofortGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSofortGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSofortGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSofortGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSofortGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSofortGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSofortGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSofortGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverPaymillCreditcardGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\PaymillCreditcardConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverPaymillCreditcardGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverPaymillCreditcardGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverPaymillCreditcardGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverPaymillCreditcardGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverPaymillCreditcardGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\PaymillCreditcardConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverPaymillCreditcardCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaymillCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaymillCreditcardCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaymillCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaymillCreditcardGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverPaymillCreditcardCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillCreditcardGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaymillCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverPaymillCreditcardGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverPaymillCreditcardGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverPaymillCreditcardGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverPaymillCreditcardGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverPaymillCreditcardGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverPaymillCreditcardGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillCreditcardGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillCreditcardGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaymillCreditcardGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverPaymillCreditcardGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverPaymillCreditcardGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaymillCreditcardGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverPaymillCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSantanderInstallmentGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSantanderInstallmentGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSantanderInstallmentGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSantanderInstallmentGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSantanderInstallmentGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSantanderInstallmentGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSantanderInstallmentCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSantanderInstallmentGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSantanderInstallmentGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSantanderInstallmentGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSantanderInstallmentGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSantanderInstallmentGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSantanderInstallmentGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSantanderInstallmentGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSantanderInstallmentNoGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentNoConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSantanderInstallmentNoGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSantanderInstallmentNoGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSantanderInstallmentNoGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSantanderInstallmentNoGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSantanderInstallmentNoGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentNoConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentNoCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentNoCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentNoGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSantanderInstallmentNoCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentNoGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentNoGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSantanderInstallmentNoGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSantanderInstallmentNoGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSantanderInstallmentNoGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSantanderInstallmentNoGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSantanderInstallmentNoGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentNoGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentNoGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentNoGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentNoGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSantanderInstallmentNoGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentNoGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSantanderInstallmentNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSantanderInstallmentDkGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentDkConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSantanderInstallmentDkGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSantanderInstallmentDkGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSantanderInstallmentDkGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSantanderInstallmentDkGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSantanderInstallmentDkGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentDkConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentDkCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentDkGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentDkCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentDkGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentDkGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSantanderInstallmentDkCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentDkGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentDkGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentDkGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSantanderInstallmentDkGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSantanderInstallmentDkGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSantanderInstallmentDkGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSantanderInstallmentDkGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSantanderInstallmentDkGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentDkGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentDkGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentDkGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentDkGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSantanderInstallmentDkGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentDkGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSantanderInstallmentDkGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSantanderInstallmentSeGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentSeConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSantanderInstallmentSeGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSantanderInstallmentSeGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSantanderInstallmentSeGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSantanderInstallmentSeGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSantanderInstallmentSeGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SantanderInstallmentSeConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentSeCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentSeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentSeCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentSeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentSeGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSantanderInstallmentSeCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentSeGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInstallmentSeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentSeGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSantanderInstallmentSeGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSantanderInstallmentSeGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSantanderInstallmentSeGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSantanderInstallmentSeGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSantanderInstallmentSeGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentSeGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentSeGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInstallmentSeGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSantanderInstallmentSeGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSantanderInstallmentSeGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInstallmentSeGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSantanderInstallmentSeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSantanderInvoiceNoGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SantanderInvoiceNoConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSantanderInvoiceNoGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSantanderInvoiceNoGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSantanderInvoiceNoGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSantanderInvoiceNoGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSantanderInvoiceNoGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SantanderInvoiceNoConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSantanderInvoiceNoCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInvoiceNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInvoiceNoCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInvoiceNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInvoiceNoGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSantanderInvoiceNoCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceNoGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInvoiceNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSantanderInvoiceNoGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSantanderInvoiceNoGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSantanderInvoiceNoGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSantanderInvoiceNoGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSantanderInvoiceNoGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSantanderInvoiceNoGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceNoGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceNoGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceNoGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSantanderInvoiceNoGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSantanderInvoiceNoGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInvoiceNoGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSantanderInvoiceNoGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverPaypalGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\PaypalConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverPaypalGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverPaypalGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverPaypalGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverPaypalGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverPaypalGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\PaypalConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverPaypalCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaypalGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaypalCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaypalGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaypalGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverPaypalCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaypalGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPaypalGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverPaypalGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverPaypalGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverPaypalGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverPaypalGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverPaypalGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverPaypalGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaypalGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaypalGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPaypalGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverPaypalGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverPaypalGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPaypalGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverPaypalGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverSantanderInvoiceDeGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\SantanderInvoiceDeConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverSantanderInvoiceDeGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverSantanderInvoiceDeGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverSantanderInvoiceDeGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverSantanderInvoiceDeGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverSantanderInvoiceDeGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\SantanderInvoiceDeConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverSantanderInvoiceDeCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInvoiceDeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInvoiceDeCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInvoiceDeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInvoiceDeGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverSantanderInvoiceDeCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceDeGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverSantanderInvoiceDeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverSantanderInvoiceDeGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverSantanderInvoiceDeGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverSantanderInvoiceDeGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverSantanderInvoiceDeGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverSantanderInvoiceDeGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverSantanderInvoiceDeGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceDeGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceDeGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverSantanderInvoiceDeGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverSantanderInvoiceDeGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverSantanderInvoiceDeGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverSantanderInvoiceDeGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverSantanderInvoiceDeGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverPayexFakturaGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\PayexFakturaConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverPayexFakturaGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverPayexFakturaGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverPayexFakturaGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverPayexFakturaGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverPayexFakturaGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\PayexFakturaConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverPayexFakturaCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPayexFakturaGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPayexFakturaCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPayexFakturaGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPayexFakturaGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverPayexFakturaCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexFakturaGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPayexFakturaGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverPayexFakturaGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverPayexFakturaGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverPayexFakturaGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverPayexFakturaGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverPayexFakturaGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverPayexFakturaGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexFakturaGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexFakturaGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexFakturaGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverPayexFakturaGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverPayexFakturaGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPayexFakturaGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverPayexFakturaGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="PayeverPayexCreditcardGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Payever\Payever\Model\Ui\PayexCreditcardConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">PayeverPayexCreditcardGatewayBlockInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeverPayexCreditcardGatewayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeverPayexCreditcardGatewayCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeverPayexCreditcardGatewayValidatorPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="PayeverPayexCreditcardGatewayConfig" type="Payever\Payever\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Payever\Payever\Model\Ui\PayexCreditcardConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators infrastructure -->
+    <virtualType name="PayeverPayexCreditcardCountryValidator" type="Payever\Payever\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPayexCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPayexCreditcardCurrencyValidator" type="Payever\Payever\Gateway\Validator\CurrencyValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPayexCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPayexCreditcardGatewayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeverPayexCreditcardCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexCreditcardGatewayBlockInfo" type="Payever\Payever\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeverPayexCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="PayeverPayexCreditcardGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeverPayexCreditcardGatewayAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">PayeverPayexCreditcardGatewayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">PayeverPayexCreditcardGatewayRefundCommand</item>
+                <item name="void" xsi:type="string">PayeverPayexCreditcardGatewayVoidCommand</item>
+                <item name="cancel" xsi:type="string">PayeverPayexCreditcardGatewayVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexCreditcardGatewayVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\VoidDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\VoidTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexCreditcardGatewayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\RefundDataRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\RefundTransaction</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeverPayexCreditcardGatewayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Payever\Payever\Gateway\Request\PaymentRequest</argument>
+            <argument name="handler" xsi:type="object">Payever\Payever\Gateway\Response\RetrieveResponse</argument>
+            <argument name="transferFactory" xsi:type="object">Payever\Payever\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Payever\Payever\Gateway\Http\Client\Authorization</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="PayeverPayexCreditcardGatewayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeverPayexCreditcardGatewayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeverPayexCreditcardGatewayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeverPayexCreditcardGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="payeverLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers"  xsi:type="array">
+                <item name="debug" xsi:type="object">Payever\Payever\Logger\Handler\Custom</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+
+    <virtualType name="PayeverDefaultGatewayConfig" type="Payever\Payever\Gateway\Config\Config" />
+    <virtualType name="PayeverGatewayLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="logger" xsi:type="object">payeverLogger</argument>
+            <argument name="config" xsi:type="object">PayeverDefaultGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+    <type name="Payever\Payever\Gateway\Http\Client\Authorization">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayeverGatewayLogger</argument>
+        </arguments>
+    </type>
+    <type name="Payever\Payever\Gateway\Http\Client\CreatePayment">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayeverGatewayLogger</argument>
+        </arguments>
+    </type>
+    <type name="Payever\Payever\Model\Api\PayeverApi">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayeverGatewayLogger</argument>
+        </arguments>
+    </type>
+    <type name="Payever\Payever\Model\Helper\OrderPlace">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayeverGatewayLogger</argument>
+        </arguments>
+    </type>
+</config>

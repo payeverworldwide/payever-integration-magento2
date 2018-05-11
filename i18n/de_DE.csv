@@ -1,0 +1,59 @@
+Reset live API keys,Live API Schlüssel wiederherstellen
+Set up sandbox API keys,Sandbox API Schlüssel einsetzen
+enabled,aktiviert
+disabled,deaktiviert
+"Sorry, but something went wrong",Leider ist entwas schief gelaufen
+Redirect url does not exist,Weiterleitung existiert nicht
+Gateway rejected the transaction,Der Zahlungsanbieter hat die Transaktion abgelehnt
+Default,Automatisch
+English,Englisch
+Deutsch,Deutsch
+Español,Spanisch
+Norsk,Norwegisch
+Dansk,Dänisch
+Svenska,Schwedisch
+Iframe,Iframe
+Redirect to payever,Weiterleitung zu payever
+Redirect & Iframe,Weiterleitung & iframe
+Authorize,Authorisierung
+Authorize and Capture,Authorisierung & Abbuchung
+CURL connection error #%s: %s,CURL Verbindungsfehler #%s: %s
+error : error_description,Fehler : error_description
+Error during the set up of the demo keys,Es ist ein Fehler bei dem Demo API Schlüssel aufgereten
+Error during synchronization settings,Es ist ein Fehler bei der Synchronisierung aufgetreten
+payever,payever
+Environment,Umgebung
+Client ID,Client ID
+"Client Secret,",Client Secret
+Slug,Slug
+Sandbox Credentials,Sandbox Zugangsdaten
+Display payment icon,Symbol für Zahlart anzeigen
+Display payment description,Beschreibung der Zahlart anzeigen
+Mode Integration,Integrationsart
+Locale,Sprache
+Debug,Debug
+Synchronize,Synchronisieren
+Stripe CreditCard,Kreditkartenzahlung
+Enabled,Aktiviert
+Title,Titel
+Description,Beschreibung
+Payment Action,Zahlungsoption
+Auto Capture,Auto capture
+"Minimum Order Total,",Minimalbetrag
+Maximum Order Total,Maximalbetrag
+Sort Order,Sortierung
+Paymill Direct Debit,Paymill Lastschrift
+SOFORT,Sofortüberweisung
+Paymill Creditcard,Paymill Kreditkarte
+Santander Installment DE,Santander Ratenkredit
+Santander Installment NO,Santander Ratenkredit NO
+Santander Installment DK,Santander Ratenkredit DK
+Santander Installment SE,Santander Ratenkredit SE
+Santander Invoice NO,Santander Rechnungskauf NO
+PayPal,PayPal
+payever Santander Invoice De,Rechnungskauf
+Payex Faktura,Payex Rechnungskauf
+Payex Creditcard,Payex Kreditkarte
+Sandbox Credentials,Sandbox Zugagsdaten
+Synchronize,Synchronisieren
+"Thank you, your order has been received. You will receive an update once your request has been processed.","Danke für Ihre Bestellung! Sie erhalten eine Bestätigung, sobald die Anfrage bearbeitet wurde."

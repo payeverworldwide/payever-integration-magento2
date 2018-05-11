@@ -1,0 +1,652 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="payever" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>payever</label>
+                <comment><![CDATA[Let your customers pay with any popular payment option such as credit card, PayPal, direkt debit, Sofort, invoice or even part payment.<br />Neither setup fees nor any other additional costs apply and the customer never has to leave the checkout.]]></comment>
+                <fieldset_css>complex payever-section</fieldset_css>
+                <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+
+                <field id="environment" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Environment</label>
+                    <source_model>Payever\Payever\Model\Adminhtml\Source\Environment</source_model>
+                    <config_path>payment/payever/environment</config_path>
+                </field>
+                <field id="client_id" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Client ID</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <config_path>payment/payever/client_id</config_path>
+                </field>
+                <field id="client_secret" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Client Secret</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <config_path>payment/payever/client_secret</config_path>
+                </field>
+                <field id="slug" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Slug</label>
+                    <config_path>payment/payever/slug</config_path>
+                </field>
+                <field id="sandbox_credentials" translate="button_label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <button_label>Sandbox Credentials</button_label>
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Credentials</frontend_model>
+                </field>
+                <field id="display_payment_icon" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Display payment icon</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/payever/display_payment_icon</config_path>
+                </field>
+                <field id="display_payment_description" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Display payment description</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/payever/display_payment_description</config_path>
+                </field>
+                <field id="mode_integration" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Mode Integration</label>
+                    <source_model>Payever\Payever\Model\Adminhtml\Source\Mode</source_model>
+                    <config_path>payment/payever/mode_integration</config_path>
+                </field>
+                <field id="locale" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Locale</label>
+                    <source_model>Payever\Payever\Model\Adminhtml\Source\Locale</source_model>
+                    <config_path>payment/payever/locale</config_path>
+                </field>
+                <field id="debug_log" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/payever/debug</config_path>
+                </field>
+                <field id="synchronize" translate="button_label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <button_label>Synchronize</button_label>
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Synchronize</frontend_model>
+                    <config_path>payment/payever/synchronize</config_path>
+                </field>
+
+                <group id="payever_stripe" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Stripe</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_stripe/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_stripe/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_stripe/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_stripe/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_stripe/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_stripe/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_stripe/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_stripe/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_paymill_directdebit" translate="label" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Paymill Directdebit</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_paymill_directdebit/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_paymill_directdebit/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_paymill_directdebit/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_paymill_directdebit/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_paymill_directdebit/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_paymill_directdebit/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_paymill_directdebit/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_paymill_directdebit/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_sofort" translate="label" type="text" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Sofort</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_sofort/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_sofort/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_sofort/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_sofort/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_sofort/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_sofort/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_sofort/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_sofort/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_paymill_creditcard" translate="label" type="text" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Paymill Creditcard</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_paymill_creditcard/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_paymill_creditcard/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_paymill_creditcard/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_paymill_creditcard/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_paymill_creditcard/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_paymill_creditcard/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_paymill_creditcard/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_paymill_creditcard/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_santander_installment" translate="label" type="text" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Santander Installment</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_santander_installment/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_santander_installment/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_santander_installment/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_santander_installment/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_santander_installment/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_santander_installment/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_santander_installment_no" translate="label" type="text" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Santander Installment No</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment_no/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_santander_installment_no/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_santander_installment_no/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_santander_installment_no/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment_no/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_santander_installment_no/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_santander_installment_no/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_santander_installment_no/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_santander_installment_dk" translate="label" type="text" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Santander Installment Dk</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment_dk/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_santander_installment_dk/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_santander_installment_dk/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_santander_installment_dk/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment_dk/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_santander_installment_dk/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_santander_installment_dk/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_santander_installment_dk/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_santander_installment_se" translate="label" type="text" sortOrder="280" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Santander Installment Se</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment_se/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_santander_installment_se/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_santander_installment_se/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_santander_installment_se/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_installment_se/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_santander_installment_se/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_santander_installment_se/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_santander_installment_se/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_santander_invoice_no" translate="label" type="text" sortOrder="290" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Santander Invoice No</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_invoice_no/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_santander_invoice_no/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_santander_invoice_no/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_santander_invoice_no/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_invoice_no/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_santander_invoice_no/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_santander_invoice_no/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_santander_invoice_no/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_paypal" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Paypal</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_paypal/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_paypal/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_paypal/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_paypal/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_paypal/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_paypal/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_paypal/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_paypal/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_santander_invoice_de" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Santander Invoice De</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_invoice_de/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_santander_invoice_de/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_santander_invoice_de/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_santander_invoice_de/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_santander_invoice_de/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_santander_invoice_de/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_santander_invoice_de/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_santander_invoice_de/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_payex_faktura" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Payex Faktura</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_payex_faktura/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_payex_faktura/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_payex_faktura/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_payex_faktura/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_payex_faktura/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_payex_faktura/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_payex_faktura/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_payex_faktura/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payever_payex_creditcard" translate="label" type="text" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Payever\Payever\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <fieldset_css>payever-section</fieldset_css>
+                    <label>payever Payex Creditcard</label>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_payex_creditcard/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/payever_payex_creditcard/title</config_path>
+                    </field>
+                    <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/payever_payex_creditcard/description</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Payever\Payever\Model\Adminhtml\Source\PaymentAction</source_model>
+                        <config_path>payment/payever_payex_creditcard/payment_action</config_path>
+                    </field>
+                    <field id="auto_capture" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Auto Capture</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/payever_payex_creditcard/auto_capture</config_path>
+                        <depends>
+                            <field id="payment_action">authorize</field>
+                        </depends>
+                    </field>
+                    <field id="min_payever_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Order Total</label>
+                        <config_path>payment/payever_payex_creditcard/min_payever_order_total</config_path>
+                    </field>
+                    <field id="max_payever_order_total" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Order Total</label>
+                        <comment>Leave empty to disable limit</comment>
+                        <config_path>payment/payever_payex_creditcard/max_payever_order_total</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/payever_payex_creditcard/sort_order</config_path>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

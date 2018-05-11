@@ -1,0 +1,59 @@
+"Reset live API keys","Reset live API keys"
+"Set up sandbox API keys","Set up sandbox API keys"
+enabled,enabled
+disabled,disabled
+"Sorry, but something went wrong","Sorry, but something went wrong"
+"Redirect url is not exists","Redirect url is not exists"
+"Gateway rejected the transaction.","Gateway rejected the transaction."
+Default,Default
+English,English
+Deutsch,Deutsch
+Español,Español
+Norsk,Norsk
+Dansk,Dansk
+Svenska,Svenska
+Iframe,Iframe
+"Redirect to payever","Redirect to payever"
+"Redirect & Iframe","Redirect & Iframe"
+Authorize,Authorize
+"Authorize and Capture","Authorize and Capture"
+"CURL connection error #%s: %s","CURL connection error #%s: %s"
+"error : error_description","error : error_description"
+"Error during Set up Demo Keys.","Error during Set up Demo Keys."
+"Error during Synchronization Settings.","Error during Synchronization Settings."
+payever,payever
+Environment,Environment
+"Client ID","Client ID"
+"Client Secret","Client Secret"
+Slug,Slug
+"Sandbox Credentials","Sandbox Credentials"
+"Display payment icon","Display payment icon"
+"Display payment description","Display payment description"
+"Mode Integration","Mode Integration"
+Locale,Locale
+Debug,Debug
+Synchronize,Synchronize
+"payever Stripe","payever Stripe"
+Enabled,Enabled
+Title,Title
+Description,Description
+"Payment Action","Payment Action"
+"Auto Capture","Auto Capture"
+"Minimum Order Total","Minimum Order Total"
+"Maximum Order Total","Maximum Order Total"
+"Sort Order","Sort Order"
+"payever Paymill Directdebit","payever Paymill Directdebit"
+"payever Sofort","payever Sofort"
+"payever Paymill Creditcard","payever Paymill Creditcard"
+"payever Santander Installment","payever Santander Installment"
+"payever Santander Installment No","payever Santander Installment No"
+"payever Santander Installment Dk","payever Santander Installment Dk"
+"payever Santander Installment Se","payever Santander Installment Se"
+"payever Santander Invoice No","payever Santander Invoice No"
+"payever Paypal","payever Paypal"
+"payever Santander Invoice De","payever Santander Invoice De"
+"payever Payex Faktura","payever Payex Faktura"
+"payever Payex Creditcard","payever Payex Creditcard"
+Sandbox Credentials,Sandbox Credentials
+Synchronize,Synchronize
+"Thank you, your order has been received. You will receive an update once your request has been processed.","Thank you, your order has been received. You will receive an update once your request has been processed."
